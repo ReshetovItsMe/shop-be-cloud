@@ -1,7 +1,6 @@
 const path = require('path');
 const slsw = require('serverless-webpack');
 const nodeExternals = require('webpack-node-externals');
-const CopyPlugin = require("copy-webpack-plugin");
 
 /*
 This line is only required if you are specifying `TS_NODE_PROJECT` for whatever reason.
