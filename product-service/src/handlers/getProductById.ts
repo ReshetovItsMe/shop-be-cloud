@@ -8,6 +8,6 @@ export const getProductById: APIGatewayProxyHandler = async (event: APIGatewayPr
         const product = await getOneProductById(event.pathParameters.productId);
         return response(200, JSON.stringify(product));
     } catch (e) {
-        return response(400, JSON.stringify(e));
+        return response(400, JSON.stringify(e.message));
     }
 }

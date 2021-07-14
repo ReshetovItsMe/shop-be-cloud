@@ -11,7 +11,6 @@ export interface IProduct {
 const getAllProducts = async (): Promise<IProduct[]> => {
     try {
         const productsJson = productList;
-        console.log(productsJson);
         return productsJson;
     } catch (e) {
         console.error(e);

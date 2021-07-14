@@ -8,6 +8,6 @@ export const getProductsList: APIGatewayProxyHandler = async () => {
         const products = await getProducts();
         return response(200, JSON.stringify(products));
     } catch (e) {
-        return response(200, JSON.stringify(e));
+        return response(200, JSON.stringify(e.message));
     }
 }
