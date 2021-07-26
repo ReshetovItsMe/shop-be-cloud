@@ -21,7 +21,7 @@ provider:
     PG_PORT: 5432
     PG_DATABASE: shopdatabase
     PG_USERNAME: postgres
-    PG_PASSWORD: 007ggsrxDD
+    PG_PASSWORD: VehA8SF63ESjZeKm
 
 
 functions:
