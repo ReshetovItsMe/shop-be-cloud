@@ -3,14 +3,14 @@ CREATE SCHEMA shop;
 CREATE TABLE shop.PRODUCTS(
     ID UUID NOT NULL,
     TITLE TEXT NOT NULL,
-    PRICE  INTEGER,
+    PRICE  INTEGER NOT NULL,
     DESCRIPTION TEXT,
     PRIMARY KEY (ID)
 );
 
 CREATE TABLE shop.STOCKS(
     PRODUCT_ID UUID NOT NULL,
-    COUNT INTEGER,
+    COUNT INTEGER NOT NULL,
     CONSTRAINT FK_PRODUCTS
     FOREIGN KEY(PRODUCT_ID)
     REFERENCES shop.PRODUCTS(ID)
@@ -21,7 +21,7 @@ CREATE TABLE shop.products_json (
 	product json NOT NULL
 );
 
-INSERT INTO shop.products_json (product) values
+INSERT INTO shop.products_json (product) VALUES
 ('{"count": 4,"description": "Short Product Description1","id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa","price": 24,"title": "ProductOne"}'),
 ('{"count": 6,"description": "Short Product Description3","id": "7567ec4b-b10c-48c5-9345-fc73c48a80a0","price": 10,"title": "ProductNew"}'),
 ('{"count": 7,"description": "Short Product Description2","id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2","price": 23,"title": "ProductTop"}'),

@@ -12,6 +12,7 @@ const dbOptions: ClientConfig = {
     },
     connectionTimeoutMillis: 5000
 };
-const dbClient = new Client(dbOptions);
 
-export default dbClient;
+const createClient = () => (new Client(dbOptions));
+
+export { createClient };

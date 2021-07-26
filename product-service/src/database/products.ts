@@ -1,15 +1,18 @@
-import dbClient from './dbClient';
+import { createClient } from './dbClient';
 import { QueryResultRow } from 'pg';
 
 export interface IProduct {
     count: number,
-    description: string,
+    description?: string,
     id: string,
     price: number,
     title: string
 };
 
+const isProduct = ({ id, title, price, count }: IProduct) => (id && title && price && count);
+
 const getAllProducts = async (): Promise<IProduct[]> => {
+    const dbClient = createClient();
     await dbClient.connect();
     try {
         const ddlResult = await dbClient.query(`
@@ -28,11 +31,12 @@ const getAllProducts = async (): Promise<IProduct[]> => {
         console.error(e);
         throw e;
     } finally {
-        dbClient.end();
+        await dbClient.end();
     }
 };
 
 const getProductById = async (id: string): Promise<IProduct> => {
+    const dbClient = createClient();
     await dbClient.connect();
     try {
         const ddlResult = await dbClient.query(`
@@ -51,11 +55,12 @@ const getProductById = async (id: string): Promise<IProduct> => {
         console.error(e);
         throw e;
     } finally {
-        dbClient.end();
+        await dbClient.end();
     }
 };
 
 const createNewProduct = async (product: IProduct): Promise<IProduct> => {
+    const dbClient = createClient();
     await dbClient.connect();
     try {
         await dbClient.query('BEGIN')
@@ -79,8 +84,8 @@ const createNewProduct = async (product: IProduct): Promise<IProduct> => {
         console.error(e);
         throw e;
     } finally {
-        dbClient.end();
+        await dbClient.end();
     }
 };
 
-export { getAllProducts, getProductById, createNewProduct };
+export { getAllProducts, getProductById, createNewProduct, isProduct };
