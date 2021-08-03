@@ -1,5 +1,6 @@
 import 'source-map-support/register';
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda";
+import { v4 as uuidv4 } from 'uuid';
 import { response } from './utils';
 import { IProduct, isProduct } from '../database/products';
 import { createProduct } from '../services/products';
@@ -7,6 +8,7 @@ import { createProduct } from '../services/products';
 export const createNewProduct: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     try {
         const newProduct: IProduct = JSON.parse(event.body);
+        newProduct.id = uuidv4();
         console.log(`requested post /products with body`, newProduct);
         if (!isProduct(newProduct)) {
             return response(400, 'Data invaild, please check request')

@@ -11,8 +11,9 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
+    "pg": "^8.6.0",
     "source-map-support": "^0.5.19",
-    "pg": "^8.6.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
