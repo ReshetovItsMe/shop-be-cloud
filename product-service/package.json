@@ -5,18 +5,21 @@
   "main": "handler.ts",
   "scripts": {
     "deploy": "sls deploy",
-    "test": "ts-node ./handler.ts"
+    "test-lambda": "serverless invoke local --function"
   },
   "engines": {
     "node": ">=14.15.0"
   },
   "dependencies": {
-    "source-map-support": "^0.5.19"
+    "pg": "^8.6.0",
+    "source-map-support": "^0.5.19",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.14.25",
+    "@types/pg": "^8.6.1",
     "serverless": "^2.23.0",
     "serverless-webpack": "^5.3.5",
     "ts-loader": "^8.0.15",
