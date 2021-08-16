@@ -36,3 +36,13 @@ functions:
             origin: "*"
           querystrings:
             name: string
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: ${env:BUCKET}
+          existing: true
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${env:PREFIX}/
+            - suffix: .csv

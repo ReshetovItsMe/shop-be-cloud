@@ -1,9 +1,9 @@
 import 'source-map-support/register';
-import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda";
+import { APIGatewayProxyEvent } from "aws-lambda";
 import { response } from './utils';
 import { createSignedUrl } from '../services/s3';
 
-export const importProductsByCsvFile: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
+export const importProductsByCsvFile = async (event: APIGatewayProxyEvent) => {
     try {
         console.log(`requested get /import/<name> with name `, event.queryStringParameters.name);
         if (!event.queryStringParameters.name) {
