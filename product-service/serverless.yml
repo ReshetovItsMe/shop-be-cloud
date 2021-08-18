@@ -6,22 +6,22 @@ custom:
     webpackConfig: "./webpack.config.js"
     includeModules: true
 
-plugins: ['serverless-webpack']
+plugins: ['serverless-webpack', 'serverless-dotenv-plugin']
 
 provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   stage: dev
-  region: eu-west-1
+  region: ${env:REGION}
   apiGateway:
     minimumCompressionSize: 1024
   environment:
-    PG_HOST: myshopdatabase.celnrxj6fjeo.eu-west-1.rds.amazonaws.com
-    PG_PORT: 5432
-    PG_DATABASE: shopdatabase
-    PG_USERNAME: postgres
-    PG_PASSWORD: VehA8SF63ESjZeKm
+    PG_HOST: ${env:PG_HOST}
+    PG_PORT: ${env:PORT}
+    PG_DATABASE: ${env:PG_DB}
+    PG_USERNAME: ${env:PG_USERNAME}
+    PG_PASSWORD: ${env:PG_PASSWORD}
 
 
 functions:
