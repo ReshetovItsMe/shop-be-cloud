@@ -1,5 +1,7 @@
+import { S3EventRecord } from "aws-lambda";
 import { S3 } from "aws-sdk";
 import csvParser from "csv-parser";
+import { IProduct } from "../interfaces/product";
 
 const s3 = new S3({ region: process.env.REGION });
 
@@ -16,7 +18,7 @@ const createSignedUrl = (
   return s3.getSignedUrlPromise("putObject", params);
 };
 
-const createProducts = (records: any) => {
+const parseProducts = async (records: S3EventRecord[]): Promise<IProduct[]> => {
   const promises = records.map((record) => {
     const params = {
       Bucket: record.s3.bucket.name,
@@ -48,7 +50,7 @@ const createProducts = (records: any) => {
     });
   });
 
-  return Promise.all(promises);
+  return (await Promise.all(promises)).flat() as IProduct[];
 };
 
 const copyFileToAnotherFolder = async (record) => {
@@ -74,4 +76,4 @@ const deleteFileFromCurrentFolder = async (record) => {
   return s3.deleteObject(paramsToDelete).promise();
 };
 
-export { createSignedUrl, createProducts };
+export { createSignedUrl, parseProducts };

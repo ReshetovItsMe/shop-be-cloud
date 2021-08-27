@@ -3,7 +3,7 @@ import {
   getProductById,
   createNewProduct,
   IProduct,
-  isProduct,
+  insertArrayProducts,
 } from "../database/products";
 
 const getProducts = async (): Promise<IProduct[]> => getAllProducts();
@@ -15,15 +15,8 @@ const createProduct = async (product: IProduct): Promise<IProduct> =>
   createNewProduct(product);
 
 const createProducts = async (products: IProduct[]): Promise<IProduct[]> => {
-  const newProducts: IProduct[] = [];
-  products.forEach(async (product) => {
-    const newProduct = await createNewProduct(product);
-    if (!isProduct(newProduct)) {
-      throw new Error(`Product ${JSON.stringify(product)} cant be created`);
-    }
-    newProducts.push(newProduct);
-    console.log("LOG inserted products db response", newProduct);
-  });
+  console.log(`to create products`, products);
+  const newProducts: IProduct[] = await insertArrayProducts(products);
   return newProducts;
 };
 
