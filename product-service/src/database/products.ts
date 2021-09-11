@@ -17,7 +17,7 @@ const getAllProducts = async (): Promise<IProduct[]> => {
     try {
         const ddlResult = await dbClient.query(`
         select p.id as id, p.title as title, p.price as price, p.description as description, s.count as count
-        from shop.products p inner join shop.stocks s on p.id = s.product_id
+        from shop.products p left join shop.stocks s on p.id = s.product_id
         `);
         const products: IProduct[] = ddlResult.rows.map((productRow: QueryResultRow) => ({
             count: productRow['count'],
@@ -41,7 +41,7 @@ const getProductById = async (id: string): Promise<IProduct> => {
     try {
         const ddlResult = await dbClient.query(`
         select p.id as id, p.title as title, p.price as price, p.description as description, s.count as count
-        from shop.products p inner join shop.stocks s on p.id = s.product_id where p.id = $1
+        from shop.products p left join shop.stocks s on p.id = s.product_id where p.id = $1
         `, [id]);
         const product: IProduct = {
             count: ddlResult.rows[0]['count'],
@@ -88,4 +88,31 @@ const createNewProduct = async (product: IProduct): Promise<IProduct> => {
     }
 };
 
-export { getAllProducts, getProductById, createNewProduct, isProduct };
+const insertArrayProducts = async (products: IProduct[]): Promise<IProduct[]> => {
+    const dbClient = createClient();
+    await dbClient.connect();
+    try {
+        const productValues = products.map((p) => `('${p.id}', '${p.title}', '${p.price}', '${p.description}')`).join(", ");
+        const stocksValues = products.map((p) => `('${p.id}', '${p.count}')`).join(", ");
+        await dbClient.query('BEGIN')
+        await dbClient.query(`
+        insert into shop.products(id, title, price, description) values ${productValues}`);
+        await dbClient.query(`
+        insert into shop.stocks(product_id, count) values ${stocksValues}`);
+        await dbClient.query('COMMIT')
+        const selectProducts = await dbClient.query(
+            `select p.id as id, p.title as title, p.price as price, p.description as description, s.count as count
+            from shop.products p left join shop.stocks s on p.id = s.product_id
+            where p.id in (${products.map(({ id }) => `'${id}'`).join(", ")});`)
+        const { rows } = selectProducts;
+        return rows;
+    } catch (e) {
+        await dbClient.query('ROLLBACK')
+        console.error(e);
+        throw e;
+    } finally {
+        await dbClient.end();
+    }
+};
+
+export { getAllProducts, getProductById, createNewProduct, isProduct, insertArrayProducts };

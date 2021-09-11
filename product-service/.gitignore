@@ -5,4 +5,5 @@ jspm_packages
 .serverless 
 .vscode 
 .webpack 
+.env
 dist
