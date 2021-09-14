@@ -18,8 +18,7 @@ const getCredentialsFromAuthorizationToken = (authorizationToken: string) => {
     const [username = '', password = ''] = buff.toString('utf-8').split(':');
     return {
         username,
-        password,
-        encodedCreds
+        password
     }
 }
 
