@@ -38,8 +38,12 @@ functions:
       - http:
           path: import
           method: get
-          cors:
-            origin: "*"
+          cors: true
+          authorizer:
+            arn: ${env:AUTH_ARN}
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
           querystrings:
             name: string
   importFileParser:
