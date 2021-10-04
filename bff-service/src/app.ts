@@ -30,12 +30,14 @@ app.use(express.json());
 app.use(cors());
 app.use(checkRoute);
 app.all('/*', async (req, res, next) => {
-    const recipient = req.originalUrl.split("/")[1];
+    const splitedUrl = req.originalUrl.split("/");
+    const recipient = splitedUrl[1];
     const recipientUrl = process.env[recipient];
+    const requestedUrl = splitedUrl.length > 2 ? req.originalUrl.replace(`/${splitedUrl}`,'') : '';
 
     const axiosConfig: AxiosRequestConfig = {
         method: req.method as Method,
-        url: `${recipientUrl}${req.originalUrl.split("/")[2]}`,
+        url: `${recipientUrl}${requestedUrl}`,
         ...(Object.keys(req.body || {}).length > 0 && { data: req.body }),
     };
     console.log("axiosConfig", axiosConfig);
