@@ -33,11 +33,12 @@ app.all('/*', async (req, res, next) => {
     const splitedUrl = req.originalUrl.split("/");
     const recipient = splitedUrl[1];
     const recipientUrl = process.env[recipient];
-    const requestedUrl = splitedUrl.length > 2 ? req.originalUrl.replace(`/${splitedUrl}`,'') : '';
+    const requestedUrl = splitedUrl.length > 2 ? req.originalUrl.replace(`/${recipient}`,'') : '';
+    
 
     const axiosConfig: AxiosRequestConfig = {
         method: req.method as Method,
-        url: `${recipientUrl}/${requestedUrl}`,
+        url: `${recipientUrl}${requestedUrl}`,
         ...(Object.keys(req.body || {}).length > 0 && { data: req.body }),
     };
     console.log("axiosConfig", axiosConfig);
