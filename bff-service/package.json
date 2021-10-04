@@ -1,0 +1,36 @@
+{
+  "name": "bff-service",
+  "version": "1.0.0",
+  "description": "This is project for home tasks which were made in EPAM NodeJS course",
+  "scripts": {
+    "start:dev": "nodemon -r dotenv/config -e ts -w ./src src/app.ts",
+    "start": "ts-node src/app.ts"
+  },
+  "keywords": [
+    "learn",
+    "education",
+    "nodejs",
+    "express",
+    "typescript"
+  ],
+  "author": "Vladislav Reshetov",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "serverless-offline": "^7.0.0",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.71",
+    "@types/cors": "^2.8.10",
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.35",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "json-schema-to-ts": "^1.5.0",
+    "serverless": "^2.52.1"
+  }
+}
